@@ -1,6 +1,6 @@
 {
   "name": "gulp-wizard",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "A general automated build tool for building client side javascript applications with nodejs and bower",
   "main": "index.js",
   "scripts": {

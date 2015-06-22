@@ -122,7 +122,7 @@ require('gulp-wizard')({
 
 ## Changelog
 
-__0.2.0__ 
+__0.2.3__
 - Add: sass support
 - Add: example project
 - Update: replace jslint with eslint

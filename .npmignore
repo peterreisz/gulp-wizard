@@ -1,1 +1,9 @@
+.idea/
+*.iml
+node_modules/
+examples/angular-material/bower_components/
+examples/angular-material/node_modules/
+examples/angular-material/public/js/
+examples/angular-material/public/css/
+npm-debug.log
 examples/
