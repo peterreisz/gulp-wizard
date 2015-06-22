@@ -3,7 +3,7 @@ var _ = require('lodash'),
     gulpIf = require('gulp-if'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    jsLint = require('gulp-jslint');
+	eslint = require('gulp-eslint');
 
 wizard.register({
     id: 'javascript',
@@ -13,28 +13,45 @@ wizard.register({
         src: '**/*.js',
         dest: 'js',
         out: 'app.js',
-        jsLint: {
-            browser: true,
-            global: ['_', 's', 'angular', 'angularI18n'],
-            sloppy: true,
-            unparam: true,
-            nomen: true
-        },
-        jsLintDev: {
-            devel: true
-        },
+	    eslint: {
+		    rules: {
+			    strict: 0,
+			    quotes: 0,
+			    indent: 2,
+			    yoda: 0,
+			    'eol-last': 0
+		    },
+		    globals: {
+			    '_': true,
+			    angular: true,
+			    angularI18n: true
+		    },
+		    envs: [
+			    'browser'
+		    ]
+	    },
+		eslintDev: {
+			rules: {
+				'no-unused-vars': 1,
+				'no-console': 1,
+				'no-alert': 1,
+				indent: 1
+			}
+		},
         uglify: {}
     },
     build: function(build, pluginConfig, config) {
-        if (pluginConfig.jsLint) {
-            var jsLintConfig = _.merge({}, pluginConfig.jsLint);
+	    if (!config.develop && pluginConfig.eslint || pluginConfig.eslintDev) {
+		    var eslintConfig = _.merge({}, pluginConfig.eslint);
+
+		    if (config.develop && pluginConfig.eslintDev) {
+			    eslintConfig = _.merge(eslintConfig, pluginConfig.eslintDev);
+		    }
+	    }
         
-            if (config.develop && pluginConfig.jsLintDev) {
-                jsLintConfig = _.merge(jsLintConfig, pluginConfig.jsLintDev);
-            }
-        }
-        
-        return build.pipe(gulpIf(jsLintConfig, jsLint(jsLintConfig)))
+	    return build.pipe(gulpIf(eslint, eslint(eslintConfig)))
+		    .pipe(gulpIf(eslint, eslint.format()))
+		    .pipe(gulpIf(eslint, eslint.failOnError()))
             .pipe(concat(pluginConfig.out))
             .pipe(gulpIf(!!pluginConfig.uglify ,uglify()));
     }

@@ -1,6 +1,7 @@
 var _ = require('lodash'),
     wizard = require('gulp-wizard'),
     templateCache = require('gulp-angular-templatecache'),
+	gulpIf = require('gulp-if'),
     htmlmin = require('gulp-htmlmin');
 
 wizard.register({
@@ -20,7 +21,7 @@ wizard.register({
         }
     },
     build: function(build, pluginConfig, config) {
-        return build.pipe(htmlmin(pluginConfig.htmlmin))
+        return build.pipe(gulpIf(!!pluginConfig.htmlmin, htmlmin(pluginConfig.htmlmin)))
             .pipe(templateCache(_.merge({}, pluginConfig.templateCache, {
                 filename: pluginConfig.out
             })));

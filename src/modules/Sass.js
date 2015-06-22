@@ -1,18 +1,18 @@
 var wizard = require('gulp-wizard'),
     concat = require('gulp-concat'),
-    less = require('gulp-less'),
+	sass = require('gulp-sass'),
     gulpIf = require('gulp-if'),
     minifyCSS = require('gulp-minify-css'),
     autoprefixer = require('gulp-autoprefixer');
 
 wizard.register({
-    id: 'less',
-    name: 'Compile less',
-    watch: '**/*.less',
+    id: 'sass',
+    name: 'Compile sass',
+    watch: '**/*.scss',
     config: {
-        src: '*.less',
+        src: '*.scss',
         dest: 'css',
-        less: {},
+        sass: {},
         autoprefixer: {
             browsers: ['last 2 versions'],
             remove: true
@@ -20,7 +20,7 @@ wizard.register({
         minifycss: {}
     },
     build: function(build, pluginConfig, config) {
-        return build.pipe(gulpIf(!!pluginConfig.less, less(pluginConfig.less)))
+        return build.pipe(gulpIf(!!pluginConfig.sass, sass(pluginConfig.sass)))
             .pipe(gulpIf(!!pluginConfig.autoprefixer, autoprefixer(pluginConfig.autoprefixer)))
             .pipe(gulpIf(!!pluginConfig.minifycss, minifyCSS(pluginConfig.minifycss)))
             .pipe(gulpIf(!!pluginConfig.out, concat(pluginConfig.out || 'app.css')));

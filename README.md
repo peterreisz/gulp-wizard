@@ -8,12 +8,13 @@ Now it specialized only for [Angularjs](https://angularjs.org/) applications.
 
 * Aggregate and compress vendor javascript and css files with [Bower](http://bower.io/). Just create a bower.json and add some dependencies. It uses the following plugins:
  * [main-bower-files](https://github.com/ck86/main-bower-files) module, for gathering the main files.
-* Generate application stylesheets from less. It uses the following plugins:
+* Generate application stylesheets from less and sass. It uses the following plugins:
  * [gulp-less](https://github.com/plus3network/gulp-less) for compiling less.
+ * [gulp-sass](https://github.com/dlmanning/gulp-sass) for compiling sass.
  * [gulp-autoprefixer](https://github.com/sindresorhus/gulp-autoprefixer) for autoprefixing the vendor specific css rules.
  * [gulp-minify-css](https://github.com/jonathanepollack/gulp-minify-css) for compressing the output.
 * Generating application javascript. It uses the following plugins:
- * [gulp-jslint](https://github.com/karimsa/gulp-jslint) for the good code quality.
+ * [gulp-eslint](https://github.com/adametry/gulp-eslint) for the good code quality.
  * [gulp-uglify](https://github.com/terinjokes/gulp-uglify) for compressing the output.
 * Generate angularjs template cache. It uses the following plugins:
  * [gulp-htmlmin](https://github.com/jonschlinkert/gulp-htmlmin) for compressing the templates
@@ -64,7 +65,7 @@ require('gulp-wizard')({
  * `destDir`: all output goes there, default `public`
  * `develop`: are we in the develop mode?, default `false`
  * `sourceMaps`: generation source maps (it's on in case develop mode), default: `false`
- * `notifyError`: alert the user of any faliure, default: `true`
+ * `notifyError`: alert the user of any failure, default: `true`
  * `notifySuccess`: notify the user in case the build was success, default: `false`
  * `silent`: do not make noise in case error, default: `false`
 
@@ -84,14 +85,12 @@ Non null default values for the module plugin options:
 * `autoprefixer`: 
  * `browsers`: `['last 2 versions']`
  * `remove`: `true`
-* `jsLint`:
- * `browser`: `true`
- * `global`: `['_', 's', 'angular', 'angularI18n']`
- * `sloppy`: `true`
- * `unparam`: `true`
- * `nomen`: `true`
-* `jsLintDev`:
- * `devel`: `true`
+* `eslint`:
+ * `rules`: `{ strict: 0, quotes: 0, indent: 2, yoda: 0, 'eol-last': 0 }`
+ * `globals`: `{ '_': true, angular: true, angularI18n: true }`
+ * `envs`: `[ 'browser' ]`
+* `eslintDev`:
+ * `rules`: `{ 'no-unused-vars': 1, 'no-console': 1, 'no-alert': 1, indent: 1 }`
 * `htmlmin`:
  * `collapseWhitespace`: `true`
  * `removeComments`: `true`
@@ -103,6 +102,7 @@ Complex example for:
 * change the application stylesheet filename
 * setup autoprefixer browser versions
 * turn off the javascript compression
+* manually turn of the bower-css module
 
 ```
 require('gulp-wizard')({
@@ -115,11 +115,22 @@ require('gulp-wizard')({
   },
   javascript: {
     uglify: false
-  }
+  },
+  'bower-css': false
 });
 ```
 
 ## Changelog
+
+__0.2.0__ 
+- Add: sass support
+- Add: example project
+- Update: replace jslint with eslint
+- Update: bump dependencies to the latest version
+- Update: make templatecache html minification able to be turned off
+- Fix: less/sass watch for files under subfolders
+- Fix: don't generate sourcemaps in case simple copy
+- Fix: make modules able to be turned off
 
 __0.1.0__ 
 - Initial release

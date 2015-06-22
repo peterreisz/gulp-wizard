@@ -1,0 +1,27 @@
+{
+  "name": "gulp-wizard-angular-material",
+  "version": "0.2.0",
+  "homepage": "https://github.com/peterreisz/gulp-wizard",
+  "authors": [
+    "Peter Reisz <peter@reisz.tk>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "1.4.x",
+    "angular-material": "0.10.x",
+    "angular-material-icons": "0.5.x",
+    "angular-ui-router": "0.2.x"
+  },
+  "overrides": {
+    "angular-material-icons": {
+      "main": "angular-material-icons.js"
+    }
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
