@@ -14,8 +14,7 @@ function toArray(input) {
     return _.isArray(input) ? input : [input];
 }
 
-function gatherSources(baseSourceDir, pluginConfig) {
-    var src = pluginConfig.src;
+function gatherSources(baseSourceDir, src, pluginConfig) {
     if (_.isFunction(src)) {
         src = src(pluginConfig);
     }

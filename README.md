@@ -33,7 +33,7 @@ npm install --save-dev gulp-wizard
  require('gulp-wizard')();
  ```
 
-* Put some less, javascript and html files into the `src` folder
+* Put some less, javascript and html files into the `src` folder (check out the example)
 * Run the gulp build, some examples:
  
 ```
@@ -121,6 +121,10 @@ require('gulp-wizard')({
 ```
 
 ## Changelog
+
+__0.2.4__
+- Fix: add missing gulp-sass dependency
+- Fix: less/sass watch for files under subfolders
 
 __0.2.3__
 - Add: sass support

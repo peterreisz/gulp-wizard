@@ -48,7 +48,7 @@ Wizard = function(config) {
 		var pluginConfig = _.merge({}, plugin.config, config[plugin.id]);
 
 		var baseSourceDir = plugin.vendor ? config.vendorBaseSourceDir : config.baseSourceDir;
-		var sources = util.gatherSources(baseSourceDir, pluginConfig);
+		var sources = util.gatherSources(baseSourceDir, pluginConfig.src, pluginConfig);
 		if (!util.hasSource(sources)) {
 			return;
 		}
@@ -57,7 +57,7 @@ Wizard = function(config) {
 		if (plugin.watch) {
 			watches.push({
 				task: plugin.id,
-				sources: _.isBoolean(plugin.watch) ? sources : plugin.watch
+				sources: _.isBoolean(plugin.watch) ? sources : util.gatherSources(baseSourceDir, plugin.watch, pluginConfig)
 			});
 		}
 
