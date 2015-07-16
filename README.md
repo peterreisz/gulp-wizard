@@ -78,7 +78,7 @@ require('gulp-wizard')({
  * `bower-css`: `bower`
  * `bower-js`: `bower`
  * `less`: `less`, `autoprefixer`, `minifycss`
- * `javascript`: `jsLint`, `jsLintDev` (this will merge to the `jsLint` in case develop mode), `uglify`
+ * `javascript`: `eslint`, `eslintDev` (this will merge to the `eslint` in case develop mode), `uglify`
  * `templatecache`: `htmlmin`, `templateCache`
 
 Non null default values for the module plugin options:
