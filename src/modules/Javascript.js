@@ -23,8 +23,13 @@ wizard.register({
 		    },
 		    globals: {
 			    '_': true,
+			    '$': true,
 			    angular: true,
-			    angularI18n: true
+			    angularI18n: true,
+			    grecaptcha: true,
+			    jQuery: true,
+			    moment: true,
+			    s: true
 		    },
 		    envs: [
 			    'browser'

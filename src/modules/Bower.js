@@ -1,5 +1,6 @@
 var _ = require('lodash'),
     wizard = require('gulp-wizard'),
+    gulpIf = require('gulp-if'),
     bowerMainFiles = require('main-bower-files'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
@@ -10,7 +11,7 @@ var _ = require('lodash'),
 
 function getVendorFiles(extensions, bowerMainFilesConfig) {
     var bowerDir = process.cwd() + '/bower_components/';
-    
+
     if (extensions && !_.isArray(extensions)) {
         extensions = [extensions];
     }
@@ -47,16 +48,17 @@ wizard.register({
         },
         dest: 'css',
         out: 'vendor.css',
-        bower: {}
+        bower: {},
+        minifycss: {}
     },
     build: function(build, pluginConfig, config) {
         return build.pipe(urlAdjuster({
-                replace: function(url) {
-                    // TODO: copy assets and replace url
-                    return url;
-                }
-            }))
-            .pipe(minifyCSS())
+            replace: function(url) {
+                // TODO: copy assets and replace url
+                return url;
+            }
+        }))
+            .pipe(gulpIf(!!pluginConfig.minifycss, minifyCSS(pluginConfig.minifycss)))
             .pipe(concat(pluginConfig.out));
     }
 });
@@ -72,20 +74,23 @@ wizard.register({
         },
         dest: 'js',
         out: 'vendor.js',
-        bower: {}
+        bower: {},
+        uglify: {}
     },
     build: function(build, pluginConfig, config) {
-        var ngI18nFilter = gulpFilter('**/angular-locale_*.js');
+        var ngI18nFilter = gulpFilter('**/angular-locale_*.js', {
+	        restore: true
+        });
 
         return build
             // angularjs i18n hack for changing $locale
             .pipe(ngI18nFilter)
-                .pipe(concat('ngI18n.js'))
-                .pipe(headerfooter.header('function angularI18n(angular) {'))
-                .pipe(headerfooter.footer('}'))
-            .pipe(ngI18nFilter.restore())
-        
-            .pipe(uglify())
+            .pipe(concat('ngI18n.js'))
+            .pipe(headerfooter.header('function angularI18n(angular) {'))
+            .pipe(headerfooter.footer('}'))
+            .pipe(ngI18nFilter.restore)
+
+            .pipe(gulpIf(!!pluginConfig.uglify ,uglify()))
             .pipe(concat(pluginConfig.out));
     }
 });

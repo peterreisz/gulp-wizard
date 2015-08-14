@@ -1,5 +1,6 @@
 var _ = require('lodash'),
 	gulp = require('gulp'),
+	runSequence = require('run-sequence'),
 	gutil = require('gulp-util'),
 	util = require('./src/Util');
 
@@ -67,14 +68,17 @@ Wizard = function(config) {
 			if (plugin.build) {
 				var build = util.startBuild(sources, plugin.name, config);
 				build = plugin.build(build, pluginConfig, config);
-				util.finishBuild(build, outputDest, plugin.name, config);
+				return util.finishBuild(build, outputDest, plugin.name, config);
 			} else {
-				gulp.src(sources).pipe(gulp.dest(outputDest));
+				return util.copy(sources, outputDest);
 			}
 		});
 	});
 
-	gulp.task('default', tasks);
+	gulp.task('default', function() {
+		return runSequence.apply(runSequence, tasks);
+	});
+
 	gulp.task('watch', ['default'], function() {
 		watches.forEach(function(item) {
 			var watcher = gulp.watch(item.sources, [item.task]);

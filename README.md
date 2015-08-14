@@ -39,6 +39,7 @@ npm install --save-dev gulp-wizard
 ```
 gulp
 gulp --develop
+gulp --debug
 gulp watch
 gulp javascript less bower-css bower-js templatecache
 ```
@@ -63,7 +64,8 @@ require('gulp-wizard')({
  * `baseSourceDir`: all sources located here, default: `src`
  * `vendorBaseSourceDir`: bower directory, default: `bower_components`,
  * `destDir`: all output goes there, default `public`
- * `develop`: are we in the develop mode?, default `false`
+ * `develop`: are we in the develop mode?, default `false`. Use the command line parameter to activate.
+ * `debug`: debug the build process, default `false`. It shows what files are processing. Use the command line parameter to activate.
  * `sourceMaps`: generation source maps (it's on in case develop mode), default: `false`
  * `notifyError`: alert the user of any failure, default: `true`
  * `notifySuccess`: notify the user in case the build was success, default: `false`
@@ -75,10 +77,10 @@ require('gulp-wizard')({
  * `out`: Output file name
 
 * You can set options for every plugin listed above in the feature section. Setting the module plugins to false means turning them off. 
- * `bower-css`: `bower`
- * `bower-js`: `bower`
+ * `bower-css`: `bower`, `minifycss`
+ * `bower-js`: `bower`, `uglify`
  * `less`: `less`, `autoprefixer`, `minifycss`
- * `javascript`: `jsLint`, `jsLintDev` (this will merge to the `jsLint` in case develop mode), `uglify`
+ * `javascript`: `eslint`, `eslintDev` (this will merge to the `eslint` in case develop mode), `uglify`
  * `templatecache`: `htmlmin`, `templateCache`
 
 Non null default values for the module plugin options:
@@ -87,7 +89,7 @@ Non null default values for the module plugin options:
  * `remove`: `true`
 * `eslint`:
  * `rules`: `{ strict: 0, quotes: 0, indent: 2, yoda: 0, 'eol-last': 0 }`
- * `globals`: `{ '_': true, angular: true, angularI18n: true }`
+ * `globals`: `{ '_': true, '$': true, angular: true, angularI18n: true, grecaptcha: true, jQuery: true, moment: true, s: true }`
  * `envs`: `[ 'browser' ]`
 * `eslintDev`:
  * `rules`: `{ 'no-unused-vars': 1, 'no-console': 1, 'no-alert': 1, indent: 1 }`
@@ -121,6 +123,12 @@ require('gulp-wizard')({
 ```
 
 ## Changelog
+
+--0.2.5--
+- Add: debug option to the build process
+- Update: dependencies
+- Update: publish bower-js and bower-css compression options
+- Update: allow more globals in eslint
 
 __0.2.4__
 - Fix: add missing gulp-sass dependency

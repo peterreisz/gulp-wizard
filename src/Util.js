@@ -5,7 +5,8 @@ var _ = require('lodash'),
     gutil = require('gulp-util'),
     sourceMaps = require('gulp-sourcemaps'),
     notify = require('gulp-notify'),
-    plumber = require('gulp-plumber');
+    plumber = require('gulp-plumber'),
+    gulpDebug = require('gulp-debug');
 
 function toArray(input) {
     if (_.isUndefined(input)) {
@@ -18,15 +19,15 @@ function gatherSources(baseSourceDir, src, pluginConfig) {
     if (_.isFunction(src)) {
         src = src(pluginConfig);
     }
-    
+
     var sources = [];
-    
+
     _.each(toArray(baseSourceDir), function(base) {
         _.each(toArray(src), function(src) {
             sources.push(base + '/' + src);
         });
     });
-    
+
     return sources;
 }
 
@@ -37,13 +38,17 @@ function hasSource(globArray) {
             return true;
         }
     }
-    
+
     return false;
 }
 
 function startBuild(sources, pluginName, config) {
-    return gulp.src(sources)
-        .pipe(plumber({
+    var build = gulp.src(sources);
+	if (gutil.env.debug) {
+		build = build.pipe(gulpDebug());
+	}
+
+	return build.pipe(plumber({
             errorHandler: function(error) {
                 if (!config.silent) {
                     gutil.beep();
@@ -57,7 +62,7 @@ function startBuild(sources, pluginName, config) {
 }
 
 function finishBuild(build, output, pluginName, config) {
-    build.pipe(gulpIf(config.sourceMaps, sourceMaps.write('.')))
+    return build.pipe(gulpIf(config.sourceMaps, sourceMaps.write('.')))
         .pipe(gulp.dest(output))
         .pipe(gulpIf(config.notifySuccess, notify({
             message: pluginName + ' succesfully finished.',
@@ -65,10 +70,19 @@ function finishBuild(build, output, pluginName, config) {
         })));
 }
 
+function copy(sources, outputDest) {
+	var build = gulp.src(sources);
+	if (gutil.env.debug) {
+		build = build.pipe(gulpDebug());
+	}
+    return build.pipe(gulp.dest(outputDest));
+}
+
 module.exports = {
     toArray: toArray,
     gatherSources: gatherSources,
     hasSource: hasSource,
     startBuild: startBuild,
-    finishBuild: finishBuild
+    finishBuild: finishBuild,
+    copy: copy
 };
