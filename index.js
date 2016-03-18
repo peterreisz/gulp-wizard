@@ -50,6 +50,9 @@ Wizard = function(config) {
 			if (n === true) {
 				return o;
 			}
+			if (_.isObject(o) && _.isObject(n)) {
+				return _.merge({}, o, n);
+			}
 			return n;
 		});
 

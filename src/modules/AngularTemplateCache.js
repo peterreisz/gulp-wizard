@@ -1,7 +1,7 @@
 var _ = require('lodash'),
     wizard = require('gulp-wizard'),
     templateCache = require('gulp-angular-templatecache'),
-	gulpIf = require('gulp-if'),
+    gulpIf = require('gulp-if'),
     htmlmin = require('gulp-htmlmin');
 
 wizard.register({

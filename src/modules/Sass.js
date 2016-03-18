@@ -1,6 +1,6 @@
 var wizard = require('gulp-wizard'),
     concat = require('gulp-concat'),
-	sass = require('gulp-sass'),
+    sass = require('gulp-sass'),
     gulpIf = require('gulp-if'),
     cleanCSS = require('gulp-clean-css'),
     autoprefixer = require('gulp-autoprefixer');

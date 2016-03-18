@@ -79,7 +79,7 @@ wizard.register({
     },
     build: function(build, pluginConfig, config) {
         var ngI18nFilter = gulpFilter('**/angular-locale_*.js', {
-	        restore: true
+            restore: true
         });
 
         return build
