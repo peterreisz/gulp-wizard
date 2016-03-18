@@ -30,11 +30,11 @@ Wizard = function(config) {
 			return 0;
 		}
 
-		if (p1.depends && _.contains(p1.depends, p2.id)) {
+		if (p1.depends && _.includes(p1.depends, p2.id)) {
 			return 1;
 		}
 
-		if (p2.depends && _.contains(p2.depends, p1.id)) {
+		if (p2.depends && _.includes(p2.depends, p1.id)) {
 			return -1;
 		}
 
@@ -46,7 +46,12 @@ Wizard = function(config) {
 			return;
 		}
 
-		var pluginConfig = _.merge({}, plugin.config, config[plugin.id]);
+		var pluginConfig = _.mergeWith({}, plugin.config, config[plugin.id], function(o, n) {
+			if (n === true) {
+				return o;
+			}
+			return n;
+		});
 
 		var baseSourceDir = plugin.vendor ? config.vendorBaseSourceDir : config.baseSourceDir;
 		var sources = util.gatherSources(baseSourceDir, pluginConfig.src, pluginConfig);
@@ -75,8 +80,8 @@ Wizard = function(config) {
 		});
 	});
 
-	gulp.task('default', function() {
-		return runSequence.apply(runSequence, tasks);
+	gulp.task('default', function(cb) {
+		return runSequence.apply(runSequence, tasks.concat(cb));
 	});
 
 	gulp.task('watch', ['default'], function() {

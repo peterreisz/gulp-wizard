@@ -2,7 +2,7 @@ var wizard = require('gulp-wizard'),
     concat = require('gulp-concat'),
     less = require('gulp-less'),
     gulpIf = require('gulp-if'),
-    minifyCSS = require('gulp-minify-css'),
+    cleanCSS = require('gulp-clean-css'),
     autoprefixer = require('gulp-autoprefixer');
 
 wizard.register({
@@ -17,12 +17,12 @@ wizard.register({
             browsers: ['last 2 versions'],
             remove: true
         },
-        minifycss: {}
+        cleancss: {}
     },
     build: function(build, pluginConfig, config) {
         return build.pipe(gulpIf(!!pluginConfig.less, less(pluginConfig.less)))
             .pipe(gulpIf(!!pluginConfig.autoprefixer, autoprefixer(pluginConfig.autoprefixer)))
-            .pipe(gulpIf(!!pluginConfig.minifycss, minifyCSS(pluginConfig.minifycss)))
+            .pipe(gulpIf(!!pluginConfig.cleancss, cleanCSS(pluginConfig.cleancss)))
             .pipe(gulpIf(!!pluginConfig.out, concat(pluginConfig.out || 'app.css')));
     }
 });

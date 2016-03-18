@@ -4,7 +4,7 @@ var _ = require('lodash'),
     bowerMainFiles = require('main-bower-files'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    minifyCSS = require('gulp-minify-css'),
+    cleanCSS = require('gulp-clean-css'),
     urlAdjuster = require('gulp-css-url-adjuster'),
     gulpFilter = require('gulp-filter'),
     headerfooter = require('gulp-headerfooter');
@@ -21,7 +21,7 @@ function getVendorFiles(extensions, bowerMainFilesConfig) {
             // Exclude minified files and source maps
             return !item.match(/([\.-]min.(js|css)|map)$/);
         })
-        .unique()
+        .uniq()
         .map(function(item) {
             // Make pathes relative
             return item.substring(bowerDir.length);
@@ -49,7 +49,7 @@ wizard.register({
         dest: 'css',
         out: 'vendor.css',
         bower: {},
-        minifycss: {}
+        cleancss: {}
     },
     build: function(build, pluginConfig, config) {
         return build.pipe(urlAdjuster({
@@ -58,7 +58,7 @@ wizard.register({
                 return url;
             }
         }))
-            .pipe(gulpIf(!!pluginConfig.minifycss, minifyCSS(pluginConfig.minifycss)))
+            .pipe(gulpIf(!!pluginConfig.cleancss, cleanCSS(pluginConfig.cleancss)))
             .pipe(concat(pluginConfig.out));
     }
 });
@@ -90,7 +90,7 @@ wizard.register({
             .pipe(headerfooter.footer('}'))
             .pipe(ngI18nFilter.restore)
 
-            .pipe(gulpIf(!!pluginConfig.uglify ,uglify()))
+            .pipe(gulpIf(!!pluginConfig.uglify ,uglify(pluginConfig.uglify)))
             .pipe(concat(pluginConfig.out));
     }
 });

@@ -12,7 +12,7 @@ Now it specialized only for [Angularjs](https://angularjs.org/) applications.
  * [gulp-less](https://github.com/plus3network/gulp-less) for compiling less.
  * [gulp-sass](https://github.com/dlmanning/gulp-sass) for compiling sass.
  * [gulp-autoprefixer](https://github.com/sindresorhus/gulp-autoprefixer) for autoprefixing the vendor specific css rules.
- * [gulp-minify-css](https://github.com/jonathanepollack/gulp-minify-css) for compressing the output.
+ * [gulp-clean-css](https://github.com/scniro/gulp-clean-css) for compressing the output.
 * Generating application javascript. It uses the following plugins:
  * [gulp-eslint](https://github.com/adametry/gulp-eslint) for the good code quality.
  * [gulp-uglify](https://github.com/terinjokes/gulp-uglify) for compressing the output.
@@ -77,9 +77,9 @@ require('gulp-wizard')({
  * `out`: Output file name
 
 * You can set options for every plugin listed above in the feature section. Setting the module plugins to false means turning them off. 
- * `bower-css`: `bower`, `minifycss`
+ * `bower-css`: `bower`, `cleancss`
  * `bower-js`: `bower`, `uglify`
- * `less`: `less`, `autoprefixer`, `minifycss`
+ * `less`: `less`, `autoprefixer`, `cleancss`
  * `javascript`: `eslint`, `eslintDev` (this will merge to the `eslint` in case develop mode), `uglify`
  * `templatecache`: `htmlmin`, `templateCache`
 
@@ -124,7 +124,14 @@ require('gulp-wizard')({
 
 ## Changelog
 
---0.2.5--
+__0.3.0__
+- Update: dependencies
+- Update: replace minifycss with cleancss
+- Fix: bower-js accepts uglify options
+- Fix: show all build time properly
+- Fix: merge source options properly
+
+__0.2.5__
 - Add: debug option to the build process
 - Update: dependencies
 - Update: publish bower-js and bower-css compression options
