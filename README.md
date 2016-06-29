@@ -124,7 +124,7 @@ require('gulp-wizard')({
 
 ## Changelog
 
-__0.3.0__
+__0.3.1__
 - Update: dependencies
 - Update: replace minifycss with cleancss
 - Fix: bower-js accepts uglify options

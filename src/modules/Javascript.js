@@ -17,7 +17,6 @@ wizard.register({
             rules: {
                 strict: 0,
                 quotes: 0,
-                indent: 2,
                 yoda: 0
             },
             globals: {
@@ -39,9 +38,7 @@ wizard.register({
             rules: {
                 'no-unused-vars': 1,
                 'no-console': 1,
-                'no-alert': 1,
-                indent: 1,
-                'no-use-before-define': 1
+                'no-alert': 1
             }
         },
         uglify: {}

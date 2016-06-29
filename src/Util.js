@@ -24,7 +24,11 @@ function gatherSources(baseSourceDir, src, pluginConfig) {
 
     _.each(toArray(baseSourceDir), function(base) {
         _.each(toArray(src), function(src) {
-            sources.push(base + '/' + src);
+            if (src[0] === '!') {
+                sources.push('!' + base + '/' + src.substring(1));
+            } else {
+                sources.push(base + '/' + src);
+            }
         });
     });
 
