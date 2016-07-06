@@ -3,7 +3,9 @@ var _ = require('lodash'),
     gulpIf = require('gulp-if'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    eslint = require('gulp-eslint');
+    eslint = require('gulp-eslint'),
+    ngAnnotate = require('gulp-ng-annotate'),
+    babel = require('gulp-babel');
 
 wizard.register({
     id: 'javascript',
@@ -14,6 +16,11 @@ wizard.register({
         dest: 'js',
         out: 'app.js',
         eslint: {
+            parser: 'babel-eslint',
+            parserOptions: {
+                ecmaVersion: 7,
+                sourceType: 'script'
+            },
             rules: {
                 strict: 0,
                 quotes: 0,
@@ -41,7 +48,13 @@ wizard.register({
                 'no-alert': 1
             }
         },
-        uglify: {}
+        uglify: {},
+        ngAnnotate: {},
+        babel: {
+            compact: false,
+            presets: ['es2015'],
+            plugins: ['babel-plugin-transform-decorators-legacy']
+        }
     },
     build: function(build, pluginConfig, config) {
         if (!config.develop && pluginConfig.eslint || pluginConfig.eslintDev) {
@@ -52,10 +65,12 @@ wizard.register({
             }
         }
 
-        return build.pipe(gulpIf(eslint, eslint(eslintConfig)))
-            .pipe(gulpIf(eslint, eslint.format()))
-            .pipe(gulpIf(eslint, eslint.failOnError()))
+        return build.pipe(gulpIf(!!pluginConfig.eslint, eslint(eslintConfig)))
+            .pipe(gulpIf(!!pluginConfig.eslint, eslint.format()))
+            .pipe(gulpIf(!!pluginConfig.eslint, eslint.failOnError()))
             .pipe(concat(pluginConfig.out))
+            .pipe(gulpIf(!!pluginConfig.babel, babel(pluginConfig.babel)))
+            .pipe(gulpIf(!!pluginConfig.ngAnnotate, ngAnnotate(pluginConfig.ngAnnotate)))
             .pipe(gulpIf(!!pluginConfig.uglify ,uglify()));
     }
 });

@@ -15,6 +15,8 @@ Now it specialized only for [Angularjs](https://angularjs.org/) applications.
  * [gulp-clean-css](https://github.com/scniro/gulp-clean-css) for compressing the output.
 * Generating application javascript. It uses the following plugins:
  * [gulp-eslint](https://github.com/adametry/gulp-eslint) for the good code quality.
+ * [gulp-ng-annotate](https://github.com/Kagami/gulp-ng-annotate) for easy angular dependency injection.
+ * [gulp-babel](https://github.com/babel/gulp-babel) for ES6 compatibility.
  * [gulp-uglify](https://github.com/terinjokes/gulp-uglify) for compressing the output.
 * Generate angularjs template cache. It uses the following plugins:
  * [gulp-htmlmin](https://github.com/jonschlinkert/gulp-htmlmin) for compressing the templates
@@ -80,7 +82,7 @@ require('gulp-wizard')({
  * `bower-css`: `bower`, `cleancss`
  * `bower-js`: `bower`, `uglify`
  * `less`: `less`, `autoprefixer`, `cleancss`
- * `javascript`: `eslint`, `eslintDev` (this will merge to the `eslint` in case develop mode), `uglify`
+ * `javascript`: `eslint`, `eslintDev` (this will merge to the `eslint` in case develop mode), `babel`, `ngAnnotate`, `uglify`
  * `templatecache`: `htmlmin`, `templateCache`
 
 Non null default values for the module plugin options:
@@ -88,11 +90,15 @@ Non null default values for the module plugin options:
  * `browsers`: `['last 2 versions']`
  * `remove`: `true`
 * `eslint`:
- * `rules`: `{ strict: 0, quotes: 0, indent: 2, yoda: 0, 'eol-last': 0 }`
- * `globals`: `{ '_': true, '$': true, angular: true, angularI18n: true, grecaptcha: true, jQuery: true, moment: true, s: true }`
+ * `parser`: `'babel-eslint'`
+ * `parserOptions`: `{ ecmaVersion: 7, sourceType: 'script' }`
+ * `rules`: `{ strict: 0, quotes: 0, yoda: 0 }`
+ * `globals`: `{ '_': true, '$': true, angular: true, angularI18n: true, grecaptcha: true, jQuery: true, moment: true, 'moment-range': true, s: true }`
  * `envs`: `[ 'browser' ]`
 * `eslintDev`:
- * `rules`: `{ 'no-unused-vars': 1, 'no-console': 1, 'no-alert': 1, indent: 1 }`
+ * `rules`: `{ 'no-unused-vars': 1, 'no-console': 1, 'no-alert': 1 }`
+* `ngAnnotate`: `{}`
+* `babel` `{ compact: false, presets: ['es2015'], plugins: ['babel-plugin-transform-decorators-legacy'] }`
 * `htmlmin`:
  * `collapseWhitespace`: `true`
  * `removeComments`: `true`
@@ -123,6 +129,10 @@ require('gulp-wizard')({
 ```
 
 ## Changelog
+
+__0.4.0__
+- Add: babel with es2015 + decorator presets
+- Add: ng-annotate
 
 __0.3.1__
 - Update: dependencies
