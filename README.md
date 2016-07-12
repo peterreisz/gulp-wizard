@@ -130,6 +130,9 @@ require('gulp-wizard')({
 
 ## Changelog
 
+__0.4.1__
+- Fix: add missing babel-eslint dependency
+
 __0.4.0__
 - Add: babel with es2015 + decorator presets
 - Add: ng-annotate
